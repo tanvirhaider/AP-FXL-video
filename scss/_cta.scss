@@ -1,0 +1,26 @@
+
+    .ctaStyle {
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        border: 2px solid #072557;
+        width: 130px;
+        height: 45px;
+        position: absolute;
+        left: 30px;
+        bottom: 30px;
+        background-color: rgba(255,255,255,0.5);
+  
+          .cta_copy_style {
+            font-family: "Proxima N W02 Smbd";
+              font-style:normal;
+              color: #072557;
+          }
+        }
+      
+      .ctaStyle:hover {
+        background-color: #072557;
+              .cta_copy_style {
+                  color: white;
+              }
+      }

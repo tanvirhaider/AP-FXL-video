@@ -1,0 +1,17 @@
+
+
+
+.logo-style {
+    position: absolute;
+    left: 30px;
+    top: 40px;
+    @include bgimage("logo.svg");
+    width: 250px;
+    height: 65px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: 0% 0%;
+    box-sizing: border-box;
+    margin-bottom: $gapBetween;
+  
+  }
