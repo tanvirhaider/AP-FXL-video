@@ -1,0 +1,48 @@
+
+// stage properties =================================
+$stage-border-color: grey;
+
+
+// base properties ==================================
+$Left-padding: 30px;
+$adBGcolor: white;
+$leftColor: rgba($adBGcolor, 1);
+$midColor: rgba($adBGcolor,0.5);
+$rightColor: rgba($adBGcolor,0);
+
+
+// image properties ==================================
+$smallImage: "705x600.jpg";
+$mediumImage: "600x600.jpg";
+$largeImage: "600x600.jpg";
+$extraLargeImage: "600x600.jpg";
+
+
+// ad copy and CTA properties =========================
+$semiBold: "Proxima N W02 Smbd";
+$regular: "Proxima N W01 Reg";
+$h1fontsize: 22px;
+$h2fontsize: 16px;
+$ctaCopyaize: 14px;
+$gapBetween: 15px;
+
+
+// breakpoint properties ===============================
+$adHeight: 600px;
+$adMaxWidth: 1125px;
+$adMinWidth: 705px;
+$adMediumWidth: 975px;
+$adLargeWidth: 1080px;
+
+
+// logo properties ======================================
+$logoHeight: 45px;
+$clientLogo: "logo.png";
+
+
+// video controller properties =========================
+$videoProgressBarVisibility: hidden;
+$playerControl-pauseBtn: "pause-btn.png";
+$playerControl-playBtn: "play-btn.png";
+$playerControl-playBtnWidthHeight: 60px;
+

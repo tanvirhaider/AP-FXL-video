@@ -1,0 +1,288 @@
+
+
+@import 'settings';
+@import 'reset';
+@import 'fonts';
+@import 'common';
+@import 'mixin';
+
+
+
+.btnStyle {
+  position: aboslute;
+  left: $Left-padding;
+  bottom: 50px; 
+}
+
+.vdoControllerHolderStyle {
+  height: 10px; 
+  visibility: $videoProgressBarVisibility;
+  width: 100%;
+  bottom: 0px;
+  background-color: rgba(0,0,0,0.2);
+}
+
+.progress {
+  position: absolute;
+  width: 0%;
+  height: 100%;
+  background: rgba(255,255,255,0.2);
+}
+
+
+.track {
+    position: relative;
+    width: 100%;
+    margin: 0px 0px 0 0px;
+    height: 100%;
+    background: rgba(100,100,100,0.2);
+    display: inline-block;
+    vertical-align: top;
+}
+
+.scrubber {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    margin: -4px 0 0 -9px;
+    background: #fff;
+    border: solid 1px #ddd;
+    cursor: pointer;
+}
+
+.stageStyle {
+
+  position: relative;
+  width: 100%;
+  height: 600px;
+
+
+  .adContainerStyle {
+    background-color: $adBGcolor;
+    max-width: 1125px;
+    min-width: 705px;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0px;
+    right: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+
+
+    @include breakpoint(small) {width: $adMinWidth;}
+    @include breakpoint(medium) {width: $adMediumWidth;}
+    @include breakpoint(large) {width: $adLargeWidth;}
+    @include breakpoint(portrait) {width: $adMinWidth;}
+    @include breakpoint(landscape) {width: $adMediumWidth;}
+
+    box-sizing: border-box;
+    border: 1px solid $stage-border-color;
+
+    .ctaStyle {
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      border: 2px solid #072557;
+      width: 130px;
+      height: 45px;
+      position: absolute;
+      left: 30px;
+      bottom: 30px;
+      background-color: rgba(255,255,255,0.5);
+
+        .cta_copy_style {
+          font-family: "Proxima N W02 Smbd";
+            font-style:normal;
+            color: #072557;
+        }
+      }
+    
+    .ctaStyle:hover {
+      background-color: #072557;
+            .cta_copy_style {
+                color: white;
+            }
+    }
+
+
+    .videoStillShotStyle {
+      @extend .background-commom;
+      overflow: hidden;
+      position: absolute;
+      right: 0px;
+      visibility: visible;
+      @include bgimage($extraLargeImage);
+
+      @include breakpoint(small) {
+        width: $adMinWidth;
+        @include bgimage($smallImage);
+        background-size: contain;
+        background-position: 100% 0%;
+        overflow: hidden;
+      }
+
+      @include breakpoint(medium) {@include bgimage($mediumImage);}
+      @include breakpoint(large) {@include bgimage($largeImage);}
+    }
+
+
+    .videoContainerStyle {
+      visibility: hidden;
+      @extend .fullBleed;
+      position: absolute;
+
+      .playerHolderStyle {
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        max-width: $adMaxWidth;
+        @extend .fullBleed;
+      }
+
+    }
+
+
+    .centerElementsStyle {
+      visibility: visible;
+      position: absolute;
+      height: 100%;
+      width: 50%;
+      left: 0px;
+      top: 0px;
+    //  box-sizing: border-box;
+
+      background: linear-gradient(to right,  $leftColor 0%,$midColor  70%, $rightColor 100%); 
+
+      .contentHolderStyle {
+        position: absolute;
+        height: 100%;
+       // bottom: 80px;
+        padding-left: $Left-padding;
+      }
+
+        .logo-style {
+          position: absolute;
+          left: 30px;
+          top: 40px;
+          @include bgimage("logo.svg");
+          width: 250px;
+          height: 65px;
+          background-size: contain;
+          background-repeat: no-repeat;
+          background-position: 0% 0%;
+          box-sizing: border-box;
+          margin-bottom: $gapBetween;
+        
+        }
+  
+      
+
+        .headline-style {
+
+
+          .headline_copy_style {
+            font-family: "Proxima N W02 Smbd";
+            color: #072557;
+            position: absolute;
+            top: 195px;
+            width: 320px;
+            font-size: 24px;
+            line-height: 32px;
+           
+          }
+        }
+
+        .subheadline-style {
+
+          .sub_headline_copy_style {
+            font-family: "Proxima N W01 Reg";
+            color: #072557;
+            position: absolute;
+            top: 310px;
+            width: 320px;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+            line-height: 23px;
+          }
+        }
+
+    }
+
+    .videoControllerHolderStyle {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      max-width: $adMaxWidth;
+      max-height: $adHeight;
+      overflow: hidden;
+      pointer-events: none;
+      @include breakpoint(small) {width: $adMinWidth;}
+    }
+
+    .vdo-button {
+      cursor: pointer;
+      position: absolute;
+      background: transparent;
+      @include bgimage($playerControl-playBtn);
+      background-size: cover;
+      background-repeat: no-repeat;
+      outline: none;
+      width: $playerControl-playBtnWidthHeight;
+      height: $playerControl-playBtnWidthHeight;  
+      @extend .dead-center-absolute;
+      pointer-events: auto;
+
+      @include breakpoint(small) {
+        right: 30px;
+        bottom: 30px;
+        margin: unset;
+        left: unset;
+        top: unset;
+      }
+
+      @include breakpoint(portrait) {
+        right: 30px;
+        bottom: 30px;
+        margin: unset;
+        left: unset;
+        top: unset;
+      }
+
+      @include breakpoint(landscape) {
+        right: 30px;
+        bottom: 30px;
+        margin: unset;
+        left: unset;
+        top: unset;
+      }
+
+
+    }
+
+    .vdo-button-play {
+      cursor: pointer;
+      position: absolute;
+      background: transparent;
+      @include bgimage($playerControl-playBtn);
+      background-size: cover;
+      background-repeat: no-repeat;
+      outline: none;
+    }
+    
+    .vdo-button-pause {
+      cursor: pointer;
+      position: absolute;
+      background: transparent;
+      @include bgimage($playerControl-pauseBtn);
+      background-size: cover;
+      background-repeat: no-repeat;
+      outline: none;
+    }
+
+  }
+
+}
+
