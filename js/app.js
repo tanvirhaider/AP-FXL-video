@@ -16,10 +16,7 @@ var vidURL = "assets/video/client-vdo.mp4";
 var stillFrame = "assets/images/posterFrame.jpg";
 var adType = "box"; // box, fullBleed
 
-
-
-
-
+//console.log(DEBUG);
 
  // ------ function to break down seconds into minutes and hours -------------
     function getTimeBreakDown (seconds) {
@@ -140,8 +137,6 @@ function init () {
     });
 
 
-
-
   var ph = new Sprite({
       id:"ph",
       class: "playerHolderStyle",
@@ -185,7 +180,7 @@ function init () {
   function callBackFunction (event) {
 
     centerElements.obj.style.display = "block";
-    vdoControlerHolder.obj.style.opacity = "0";
+    vdo_progress_holder.obj.style.opacity = "0";
     videoStillShot.obj.style.visibility = "visible";
     videoContainer.obj.style.visibility = "hidden";
     controllerBtn.obj.classList.remove('centerit');
@@ -242,52 +237,54 @@ function init () {
   });
 
 
-  function playPauseClicked (event) {
-    if (!isPlayer)
-    {
+
+  function video_state_play () {
+    isPlayer = true;
+
     console.log("video playing");
     videoStillShot.obj.style.visibility = "hidden";
     videoContainer.obj.style.visibility = "visible";
     TweenMax.set(ph.obj,{alpha:1});
-    vdoControlerHolder.obj.style.opacity = "1";
+    vdo_progress_holder.obj.style.opacity = "1";
     controllerBtn.obj.classList.add('centerit');
     controllerBtn.obj.classList.add('vdo-button-pause');
     controllerBtn.obj.classList.remove('vdo-button-play');
     videoControllerHolder.obj.classList.remove('square');
     videoControllerHolder.obj.classList.add('fullBleed');
-    
     centerElements.obj.style.display = "none";
 
-
-    isPlayer = true;
+    
     if (fromBegining) {vidPlayer.newVideo(vidURL,stillFrame);} 
     else {vidPlayer.play();}
-    timer = setInterval(function(){ updateAudioTimer(); }, 1000);
+    timer = setInterval(function(){ update_playHead_position(); }, 1000);
     fromBegining = false;
+  }
 
+  function video_state_paused () {
+    isPlayer = false;
+
+    console.log("video is paused");
+    controllerBtn.obj.style.opacity = "1";
+    videoContainer.obj.style.visibility = "hidden";
+    videoStillShot.obj.style.visibility = "visible";
+    controllerBtn.obj.classList.add('vdo-button-play');
+    controllerBtn.obj.classList.remove('vdo-button-pause');
+    controllerBtn.obj.classList.remove('centerit');
+    centerElements.obj.style.display = "block";
+
+    if (adType == "box") {
+      videoControllerHolder.obj.classList.add('square');
+      videoControllerHolder.obj.classList.remove('fullBleed');
     }
-    else { 
-      
-      console.log("video is paused");
-      controllerBtn.obj.style.opacity = "1";
-      videoContainer.obj.style.visibility = "hidden";
-      videoStillShot.obj.style.visibility = "visible";
-      controllerBtn.obj.classList.add('vdo-button-play');
-      controllerBtn.obj.classList.remove('vdo-button-pause');
-      controllerBtn.obj.classList.remove('centerit');
-      centerElements.obj.style.display = "block";
-
-      if (adType == "box") {
-        videoControllerHolder.obj.classList.add('square');
-        videoControllerHolder.obj.classList.remove('fullBleed');
-      }
+    
+    vidPlayer.pause();
+    clearInterval(timer);
+  }
 
 
-      
-      isPlayer = false;
-      vidPlayer.pause();
-      clearInterval(timer);
-    }
+  function playPauseClicked (event) {
+    if (!isPlayer) { video_state_play ();}
+    else { video_state_paused ();}
   }
 
   function pauseThe_vid (event) {
@@ -301,21 +298,24 @@ function init () {
     clearInterval(timer);
   }
 
-  var vdoControlerHolder = new Sprite({
-    id:"vdoControlerHolder",
-    class: "vdoControllerHolderStyle",
+
+  // -------- video progress bar -------------------------------------
+
+  var vdo_progress_holder = new Sprite({
+    id:"vdo_progress_holder",
+    class: "vdo-progress-holder",
     position:"absolute",
-    container:stage,
+    container:adContainer.obj,
     click: {function: durationClicked}
   });
 
-  vdoControlerHolder.obj.style.opacity = "0";
+  vdo_progress_holder.obj.style.opacity = "0";
 
   var durationTrack = new Sprite({
     id:"durationTrack",
     class: "track highlight-fix",
     position:"absolute",
-    container:vdoControlerHolder.obj
+    container:vdo_progress_holder.obj
   });
 
   var progressBar = new Sprite({
@@ -325,16 +325,6 @@ function init () {
     container:durationTrack.obj
   });
 
- 
-
-  function onCtaClk(e){
-    console.log("click thorugh");
-    pauseThe_vid ();
-    EB.clickthrough();
-  }
-
-  var yoffset = 50;
-
 
  function durationClicked (event) {
     if (videoDuration != null) {
@@ -342,46 +332,43 @@ function init () {
       var x = event.clientX;
       var y = event.clientY;
       var totalDuration = videoDuration;
-      var currentSelectedPlayhead = event.clientX - vdoControlerHolder.obj.offsetLeft;
+      var currentSelectedPlayhead = event.clientX - vdo_progress_holder.obj.offsetLeft;
       var calculatedDistance = (currentSelectedPlayhead/durationLength) * 100;
       var calculatedTime = (totalDuration / 100) * calculatedDistance;
       vidPlayer.updatePlayhead(calculatedTime);
     }
   }
 
-    function updateAudioTimer () {
-        var currentTimeInSecond = vidPlayer.currentTime();
-        var currentTimePercentage = Math.round(currentTimeInSecond/videoDuration * 100);
-        progressBar.obj.style.width = currentTimePercentage + "%";
-      }
-
-      function responsiveSetting (event) {
-        console.log("responsive setting triggered");
-        var adStage = document.getElementById("willow-ad-stage");
-        currentWidthOfSite = adStage.clientWidth;
-      
-
-        if (currentWidthOfSite > 1080) {
-        }
+  function update_playHead_position () {
+    var currentTimeInSecond = vidPlayer.currentTime();
+    var currentTimePercentage = Math.round(currentTimeInSecond/videoDuration * 100);
+    progressBar.obj.style.width = currentTimePercentage + "%";
+  }
 
 
-        if ((currentWidthOfSite < 975)&&(currentWidthOfSite >= 705)) {
+  function onCtaClk(e){
+    console.log("click thorugh");
+    pauseThe_vid ();
+    EB.clickthrough();
+  }
 
-        }
+  // -------- video progress bar -------------------------------------
 
-        if ((currentWidthOfSite < 705)&&(currentWidthOfSite > 0)) {
-        }
+  function responsiveSetting (event) {
+    console.log("responsive setting triggered");
+    var adStage = document.getElementById("willow-ad-stage");
+    currentWidthOfSite = adStage.clientWidth;
+    if (currentWidthOfSite > 1080) {}
+    if ((currentWidthOfSite < 975)&&(currentWidthOfSite >= 705)) {}
+    if ((currentWidthOfSite < 705)&&(currentWidthOfSite > 0)) {}
+  }
 
-   
 
-    }
+  responsiveSetting ();
+  window.addEventListener("resize", responsiveSetting);
 
-
-    responsiveSetting ();
-    window.addEventListener("resize", responsiveSetting);
-
-    initializeGlobalVariables();
-    setCreativeVersion();
+  initializeGlobalVariables();
+  setCreativeVersion();
 
 }
 
